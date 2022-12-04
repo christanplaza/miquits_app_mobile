@@ -52,7 +52,7 @@ public class Register extends AppCompatActivity {
                 password_confirm = textInputEditTextConfirmPassword.getText().toString();
 
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url = "http://192.168.11.195/miquits/mobile/register.php";
+                String url = Global.RootIP + "miquits/mobile/register.php";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {

@@ -37,7 +37,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".CreateBookingActivity"
+            android:name=".SelectMassageActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -66,11 +66,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
 
             <meta-data
                 android:name="android.app.lib_name"

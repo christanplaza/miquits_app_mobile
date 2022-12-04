@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url = "http://192.168.11.195/miquits/mobile/logout.php";
+                String url = Global.RootIP + "miquits/mobile/logout.php";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
@@ -61,7 +61,6 @@ public class MainActivity extends AppCompatActivity {
 
                                     Intent intent = new Intent(getApplicationContext(), Login.class);
                                     startActivity(intent);
-                                    finish();
 
                                     Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
                                 } else {
@@ -88,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), CreateBookingActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ScheduleSelectionActivity.class);
                 startActivity(intent);
                 finish();
             }

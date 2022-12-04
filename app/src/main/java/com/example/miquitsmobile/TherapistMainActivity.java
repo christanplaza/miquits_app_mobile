@@ -50,7 +50,7 @@ public class TherapistMainActivity extends AppCompatActivity {
         tableLayout = findViewById(R.id.table_layout);
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        String url = "http://192.168.11.195/miquits/mobile/get_therapist_bookings.php";
+        String url = Global.RootIP + "miquits/mobile/get_therapist_bookings.php";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -98,7 +98,7 @@ public class TherapistMainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url = "http://192.168.11.195/miquits/mobile/logout.php";
+                String url = Global.RootIP + "miquits/mobile/logout.php";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {

@@ -23,15 +23,21 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CreateBookingActivity extends AppCompatActivity implements RecyclerViewInterface {
+public class SelectMassageActivity extends AppCompatActivity implements RecyclerViewInterface {
     ProgressBar progressBar;
     SharedPreferences sharedPreferences;
-    String username, userKey;
+    String username, userKey, contactNumber, time, date;
     List<MassageModelClass> massageList;
     RecyclerView recyclerView;
 
@@ -45,6 +51,10 @@ public class CreateBookingActivity extends AppCompatActivity implements Recycler
         username = sharedPreferences.getString("username", "true");
         userKey = sharedPreferences.getString("userKey", "true");
 
+        contactNumber = getIntent().getStringExtra("contact_number");
+        time = getIntent().getStringExtra("time");
+        date = getIntent().getStringExtra("date");
+
         massageList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recycler_view);
@@ -52,8 +62,11 @@ public class CreateBookingActivity extends AppCompatActivity implements Recycler
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(massageAdapter);
 
+
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        String url = "http://192.168.11.195/miquits/mobile/get_massages.php";
+        String url = Global.RootIP + "miquits/mobile/get_massages.php";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -66,7 +79,6 @@ public class CreateBookingActivity extends AppCompatActivity implements Recycler
                             String status = jsonObject.getString("status");
 
                             if (status.equals("success")) {
-                                Log.e("inside", "test");
                                 JSONArray jsonArray = jsonObject.getJSONArray("massages");
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
@@ -102,6 +114,8 @@ public class CreateBookingActivity extends AppCompatActivity implements Recycler
                 Map<String, String> paramV = new HashMap<>();
                 paramV.put("username", username);
                 paramV.put("userKey", userKey);
+                paramV.put("time", time);
+                paramV.put("date", date);
                 return paramV;
             }
         };
@@ -109,11 +123,25 @@ public class CreateBookingActivity extends AppCompatActivity implements Recycler
     }
 
     @Override
-    public void onItemClick(int position) {
+    public void onItemClick(int position) throws ParseException {
+        SimpleDateFormat df = new SimpleDateFormat("HH:mm");
+        Date d = df.parse(time);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(d);
+        cal.add(Calendar.MINUTE, Integer.parseInt(massageList.get(position).getDuration()));
+        String newTime = df.format(cal.getTime());
+
         Intent intent = new Intent(getApplicationContext(), SelectTherapistActivity.class);
+
+        intent.putExtra("contact_number", contactNumber);
+        intent.putExtra("time", time);
+        intent.putExtra("date", date);
         intent.putExtra("massage_id", massageList.get(position).getId());
         intent.putExtra("massage_name", massageList.get(position).getTitle());
         intent.putExtra("massage_price", massageList.get(position).getPrice());
+        intent.putExtra("massage_duration", massageList.get(position).getDuration());
+        intent.putExtra("massage_end_time", newTime);
+
         startActivity(intent);
     }
 }

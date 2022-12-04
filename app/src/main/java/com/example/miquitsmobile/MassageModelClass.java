@@ -7,14 +7,16 @@ public class MassageModelClass {
     String duration;
     String price;
     String status;
+    String seatType;
 
-    public MassageModelClass(String id, String title, String description, String duration, String price, String status) {
+    public MassageModelClass(String id, String title, String description, String duration, String price, String status, String seatType, boolean availability) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.duration = duration;
         this.price = price;
         this.status = status;
+        this.seatType = seatType;
     }
 
     public MassageModelClass() {
@@ -66,5 +68,13 @@ public class MassageModelClass {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getSeatType() {
+        return seatType;
+    }
+
+    public void setSeatType(String seatType) {
+        this.seatType = seatType;
     }
 }

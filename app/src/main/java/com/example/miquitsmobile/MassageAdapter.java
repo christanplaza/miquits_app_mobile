@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
 import java.util.List;
 
 public class MassageAdapter extends RecyclerView.Adapter<MassageAdapter.MyViewHolder> {
@@ -34,9 +35,15 @@ public class MassageAdapter extends RecyclerView.Adapter<MassageAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        String seatType = "Seated";
+        if (massageData.get(position).getSeatType() == "laying") {
+            seatType = "Laying";
+        }
         holder.massageName.setText(massageData.get(position).getTitle());
         holder.massageDescription.setText(massageData.get(position).getDescription());
         holder.massagePrice.setText("₱" + massageData.get(position).getPrice());
+        holder.massageDuration.setText(massageData.get(position).getDuration() + " minutes");
+        holder.massageSeatType.setText(seatType);
     }
 
     @Override
@@ -46,7 +53,7 @@ public class MassageAdapter extends RecyclerView.Adapter<MassageAdapter.MyViewHo
 
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView massageName, massageDescription, massagePrice;
+        TextView massageName, massageDescription, massagePrice, massageDuration, massageSeatType;
 
         public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
@@ -54,6 +61,8 @@ public class MassageAdapter extends RecyclerView.Adapter<MassageAdapter.MyViewHo
             massageName = itemView.findViewById(R.id.massage_name);
             massageDescription = itemView.findViewById(R.id.massage_description);
             massagePrice = itemView.findViewById(R.id.massage_price);
+            massageDuration = itemView.findViewById(R.id.massage_duration);
+            massageSeatType = itemView.findViewById(R.id.seat_type);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -62,7 +71,11 @@ public class MassageAdapter extends RecyclerView.Adapter<MassageAdapter.MyViewHo
                         int pos = getAdapterPosition();
 
                         if (pos != RecyclerView.NO_POSITION) {
-                            recyclerViewInterface.onItemClick(pos);
+                            try {
+                                recyclerViewInterface.onItemClick(pos);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }

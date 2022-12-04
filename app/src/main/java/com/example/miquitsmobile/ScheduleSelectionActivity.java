@@ -1,7 +1,6 @@
 package com.example.miquitsmobile;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -16,32 +15,22 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Date;
+import java.util.Locale;
 
 public class ScheduleSelectionActivity extends AppCompatActivity implements View.OnClickListener {
-    String massageId, therapistId, therapistName, massageName, contactNumber, username, userKey;
+    String massageId, massageName, massageDuration, contactNumber, massagePrice, username, userKey, massageEndtime;
     TextInputEditText textInputEditTextContactNumber;
-    TextView textViewTherapistName, textViewMassageName;
+    TextView textViewMassageDuration, textViewMassageName, textViewErrorMessage;
     Button btnDatePicker, btnTimePicker, submit;
     EditText txtDate, txtTime;
-    private int mYear, mMonth, mDay, mHour, mMinute;
+    private int mYear, mMonth, mDay, mHour, mMinute, startHour, endHour;
     SharedPreferences sharedPreferences;
 
     @Override
@@ -49,78 +38,36 @@ public class ScheduleSelectionActivity extends AppCompatActivity implements View
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_schedule_selection);
 
-        massageId = getIntent().getStringExtra("massage_id");
-        therapistId = getIntent().getStringExtra("therapist_id");
-        massageName = getIntent().getStringExtra("massage_name");
-        therapistName = getIntent().getStringExtra("therapist_name");
-
         sharedPreferences = getSharedPreferences("miquits_app", Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "true");
         userKey = sharedPreferences.getString("userKey", "true");
-
 
         btnDatePicker=(Button)findViewById(R.id.btn_date);
         btnTimePicker=(Button)findViewById(R.id.btn_time);
         txtDate=(EditText)findViewById(R.id.massage_date);
         txtTime=(EditText)findViewById(R.id.massage_time);
+        textViewErrorMessage = findViewById(R.id.error_message);
         submit = findViewById(R.id.submit);
         textInputEditTextContactNumber = findViewById(R.id.contact_number);
 
         btnDatePicker.setOnClickListener(this);
         btnTimePicker.setOnClickListener(this);
 
-        textViewMassageName = findViewById(R.id.massage_chosen);
-        textViewTherapistName = findViewById(R.id.therapist_chosen);
-        textViewMassageName.setText(massageName);
-        textViewTherapistName.setText(therapistName);
+        startHour = 9;
+        endHour = 22;
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 contactNumber = textInputEditTextContactNumber.getText().toString();
 
-                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url = "http://192.168.11.195/miquits/mobile/add_bookings.php";
+                Intent intent = new Intent(getApplicationContext(), SelectMassageActivity.class);
 
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(response);
-                                    String status = jsonObject.getString("status");
-                                    if (status.equals("success")) {
-                                    Toast.makeText(getApplicationContext(), "Booking Successful", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                    } else {
-                                        Log.e("error", response);
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
-                    }
-                }){
-                    protected Map<String, String> getParams() {
-                        Map<String, String> paramV = new HashMap<>();
-                        paramV.put("username", username);
-                        paramV.put("userKey", userKey);
-                        paramV.put("name", username);
-                        paramV.put("contact_number", contactNumber);
-                        paramV.put("date", txtDate.getText().toString());
-                        paramV.put("time", txtTime.getText().toString());
-                        paramV.put("therapist", therapistId);
-                        paramV.put("massage", massageId);
-                        return paramV;
-                    }
-                };
-                queue.add(stringRequest);
+                intent.putExtra("contact_number", contactNumber);
+                intent.putExtra("date", txtDate.getText().toString());
+                intent.putExtra("time", txtTime.getText().toString());
+
+                startActivity(intent);
             }
         });
     }
@@ -148,6 +95,7 @@ public class ScheduleSelectionActivity extends AppCompatActivity implements View
 
                         }
                     }, mYear, mMonth, mDay);
+            datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
             datePickerDialog.show();
         }
         if (v == btnTimePicker) {
@@ -164,8 +112,27 @@ public class ScheduleSelectionActivity extends AppCompatActivity implements View
                         @Override
                         public void onTimeSet(TimePicker view, int hourOfDay,
                                               int minute) {
+                            textViewErrorMessage.setVisibility(View.GONE);
+                            SimpleDateFormat df = new SimpleDateFormat("HH:mm");
 
-                            txtTime.setText(hourOfDay + ":" + minute);
+                            Calendar datetime = Calendar.getInstance();
+                            Calendar openingTime = Calendar.getInstance();
+                            Calendar closingTime = Calendar.getInstance();
+
+                            openingTime.set(Calendar.HOUR_OF_DAY, startHour);
+                            openingTime.set(Calendar.MINUTE, 00);
+                            closingTime.set(Calendar.HOUR_OF_DAY, endHour);
+                            closingTime.set(Calendar.MINUTE, 00);
+
+                            datetime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                            datetime.set(Calendar.MINUTE, minute);
+
+                            if ((datetime.getTimeInMillis() >= openingTime.getTimeInMillis() && datetime.getTimeInMillis() <= closingTime.getTimeInMillis())) {
+                                txtTime.setText(String.format("%02d:%02d", hourOfDay, minute));
+                            } else {
+                                textViewErrorMessage.setText("Invalid Time. Store hours 9:00AM-10:00PM");
+                                textViewErrorMessage.setVisibility(View.VISIBLE);
+                            }
                         }
                     }, mHour, mMinute, false);
             timePickerDialog.show();

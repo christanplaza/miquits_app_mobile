@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.ParseException;
 import java.util.List;
 
 public class TherapistAdapter extends RecyclerView.Adapter<TherapistAdapter.MyViewHolder> {
@@ -58,7 +59,11 @@ public class TherapistAdapter extends RecyclerView.Adapter<TherapistAdapter.MyVi
                         int pos = getAdapterPosition();
 
                         if (pos != RecyclerView.NO_POSITION) {
-                            recyclerViewInterface.onItemClick(pos);
+                            try {
+                                recyclerViewInterface.onItemClick(pos);
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 }
