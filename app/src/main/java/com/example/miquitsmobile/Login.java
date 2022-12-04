@@ -29,7 +29,7 @@ public class Login extends AppCompatActivity {
     TextInputEditText textInputEditTextUsername, textInputEditTextPassword;
     String username, password, name, role, userKey, userId;
     Button login;
-    TextView register;
+    TextView register, error;
     SharedPreferences sharedPreferences;
 
     @Override
@@ -41,6 +41,7 @@ public class Login extends AppCompatActivity {
         textInputEditTextPassword = findViewById(R.id.password);
         login = findViewById(R.id.submit);
         register = findViewById(R.id.register_now);
+        error = findViewById(R.id.error);
         sharedPreferences = getSharedPreferences("miquits_app", MODE_PRIVATE);
 
         register.setOnClickListener(new View.OnClickListener() {
@@ -55,6 +56,7 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                error.setVisibility(View.INVISIBLE);
                 username = textInputEditTextUsername.getText().toString();
                 password = textInputEditTextPassword.getText().toString();
 
@@ -69,6 +71,7 @@ public class Login extends AppCompatActivity {
                                 try {
                                     JSONObject jsonObject = new JSONObject(response);
                                     String status = jsonObject.getString("status");
+                                    String message = jsonObject.getString("message");
                                     if (status.equals("success")) {
                                         username = jsonObject.getString("username");
                                         name = jsonObject.getString("name");
@@ -94,6 +97,9 @@ public class Login extends AppCompatActivity {
 
                                         startActivity(intent);
                                         finish();
+                                    } else {
+                                        error.setVisibility(View.VISIBLE);
+                                        error.setText(message);
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();

@@ -52,6 +52,7 @@
         android:id="@+id/error"
         android:layout_marginBottom="20dp"
         android:text="Error"
+        android:textColor="@color/primary"
         android:layout_width="wrap_content"
         android:visibility="gone"
         android:layout_height="wrap_content"/>
