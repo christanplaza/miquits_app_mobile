@@ -8,8 +8,11 @@ public class MassageModelClass {
     String price;
     String status;
     String seatType;
+    String date;
+    String time;
+    String therapistName;
 
-    public MassageModelClass(String id, String title, String description, String duration, String price, String status, String seatType, boolean availability) {
+    public MassageModelClass(String id, String title, String description, String duration, String price, String status, String seatType, String date, String time, String therapistName) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -17,6 +20,9 @@ public class MassageModelClass {
         this.price = price;
         this.status = status;
         this.seatType = seatType;
+        this.date = date;
+        this.time = time;
+        this.therapistName = therapistName;
     }
 
     public MassageModelClass() {
@@ -76,5 +82,29 @@ public class MassageModelClass {
 
     public void setSeatType(String seatType) {
         this.seatType = seatType;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getTherapistName() {
+        return therapistName;
+    }
+
+    public void setTherapistName(String therapistName) {
+        this.therapistName = therapistName;
     }
 }

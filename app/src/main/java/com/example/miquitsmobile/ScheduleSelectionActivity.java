@@ -53,8 +53,8 @@ public class ScheduleSelectionActivity extends AppCompatActivity implements View
         btnDatePicker.setOnClickListener(this);
         btnTimePicker.setOnClickListener(this);
 
-        startHour = 9;
-        endHour = 22;
+        startHour = 10;
+        endHour = 21;
 
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,7 +106,7 @@ public class ScheduleSelectionActivity extends AppCompatActivity implements View
             mMinute = c.get(Calendar.MINUTE);
 
             // Launch Time Picker Dialog
-            TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+            TimePickerDialog timePickerDialog = new TimePickerDialog(this, R.style.MyTimePickerStyle,
                     new TimePickerDialog.OnTimeSetListener() {
 
                         @Override
@@ -130,7 +130,7 @@ public class ScheduleSelectionActivity extends AppCompatActivity implements View
                             if ((datetime.getTimeInMillis() >= openingTime.getTimeInMillis() && datetime.getTimeInMillis() <= closingTime.getTimeInMillis())) {
                                 txtTime.setText(String.format("%02d:%02d", hourOfDay, minute));
                             } else {
-                                textViewErrorMessage.setText("Invalid Time. Store hours 9:00AM-10:00PM");
+                                textViewErrorMessage.setText("Invalid Time. Store hours 10:00AM-9:00PM");
                                 textViewErrorMessage.setVisibility(View.VISIBLE);
                             }
                         }

@@ -25,8 +25,6 @@ import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -44,7 +42,7 @@ public class SelectMassageActivity extends AppCompatActivity implements Recycler
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_booking);
+        setContentView(R.layout.activity_select_massage);
 
         progressBar = findViewById(R.id.loading);
         sharedPreferences = getSharedPreferences("miquits_app", Context.MODE_PRIVATE);
@@ -143,5 +141,6 @@ public class SelectMassageActivity extends AppCompatActivity implements Recycler
         intent.putExtra("massage_end_time", newTime);
 
         startActivity(intent);
+        overridePendingTransition(R.anim.enter, R.anim.exit);
     }
 }

@@ -136,6 +136,7 @@ public class SelectTherapistActivity extends AppCompatActivity implements Recycl
                                         Toast.makeText(getApplicationContext(), "Booking Successful", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                         startActivity(intent);
+                                        overridePendingTransition(R.anim.enter, R.anim.exit);
                                         finish();
                                     } else {
                                         Log.e("error", response);
@@ -163,6 +164,7 @@ public class SelectTherapistActivity extends AppCompatActivity implements Recycl
                         return paramV;
                     }
                 };
+
                 queue.add(stringRequest);
 //        Intent intent = new Intent(getApplicationContext(), ScheduleSelectionActivity.class);
 //        intent.putExtra("massage_end_time", massageEndTime);

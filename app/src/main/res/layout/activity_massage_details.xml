@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".MassageDetails">
+
+    <TextView
+        android:id="@+id/title"
+        android:text="Booking Details"
+        android:textSize="32sp"
+        android:textColor="@color/primary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TableLayout
+        android:layout_marginTop="16dp"
+        android:shrinkColumns="1"
+        android:stretchColumns="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableRow android:layout_marginVertical="16dp">
+            <TextView
+                android:text="Status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+            <TextView
+                android:id="@+id/booking_status"
+                android:text="Status"
+                android:gravity="end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+        </TableRow>
+        <TableRow android:layout_marginVertical="16dp">
+            <TextView
+                android:text="Date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+            <TextView
+                android:id="@+id/booking_date"
+                android:text="Booking Date"
+                android:gravity="end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+        </TableRow>
+        <TableRow android:layout_marginVertical="16dp">
+            <TextView
+                android:text="Time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+            <TextView
+                android:id="@+id/booking_time"
+                android:text="Booking Time"
+                android:gravity="end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+        </TableRow>
+        <TableRow android:layout_marginVertical="16dp">
+            <TextView
+                android:text="Massage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+            <TextView
+                android:id="@+id/booking_masssage_name"
+                android:text="Title"
+                android:gravity="end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+        </TableRow>
+        <TableRow android:layout_marginVertical="16dp">
+            <TextView
+                android:text="Therapist"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+            <TextView
+                android:id="@+id/booking_therapist"
+                android:text="Therapist"
+                android:gravity="end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="24sp"/>
+        </TableRow>
+        <TableRow android:layout_marginVertical="16dp"
+            android:padding="8dp">
+            <Button
+                android:id="@+id/cancel_button"
+                android:layout_weight="@integer/material_motion_duration_long_1"
+                android:text="Cancel Booking"
+                android:layout_width="match_parent"
+                android:elevation="4dp"
+                android:layout_height="54dp"/>
+        </TableRow>
+        <TableRow
+            android:padding="8dp">
+            <Button
+                android:id="@+id/home_button"
+                android:layout_weight="@integer/material_motion_duration_long_1"
+                android:text="Back to Home"
+                android:textColor="@color/primary"
+                android:backgroundTint="@color/white"
+                android:layout_width="match_parent"
+                android:elevation="4dp"
+                android:layout_height="54dp"/>
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

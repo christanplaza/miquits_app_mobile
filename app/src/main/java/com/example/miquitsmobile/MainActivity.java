@@ -1,6 +1,8 @@
 package com.example.miquitsmobile;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,15 +26,20 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements RecyclerViewInterface {
     TextView massageName, massageDate, massageTime, massageStatus;
     FloatingActionButton floatingActionButton;
     Button logout;
-    String username, userKey;
+    String username, userKey, massageNameStr, therapistNameStr;
     SharedPreferences sharedPreferences;
+    RecyclerView recyclerView;
+    List<MassageModelClass> massageList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,19 +48,20 @@ public class MainActivity extends AppCompatActivity {
 
         floatingActionButton = findViewById(R.id.fab);
         logout = findViewById(R.id.logout);
-        massageName = findViewById(R.id.massage_card_name);
-        massageDate = findViewById(R.id.massage_card_date);
-        massageTime = findViewById(R.id.massage_card_time);
-        massageStatus = findViewById(R.id.massage_card_status);
-
-        massageName.setVisibility(View.GONE);
-        massageDate.setVisibility(View.GONE);
-        massageTime.setVisibility(View.GONE);
-        massageStatus.setVisibility(View.GONE);
+        recyclerView = findViewById(R.id.recycler_view);
 
         sharedPreferences = getSharedPreferences("miquits_app", Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "true");
         userKey = sharedPreferences.getString("userKey", "true");
+
+
+
+        massageList = new ArrayList<>();
+
+        recyclerView = findViewById(R.id.recycler_view);
+        UpcomingMassageAdapter massageAdapter = new UpcomingMassageAdapter(getApplicationContext(), massageList, this);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        recyclerView.setAdapter(massageAdapter);
 
         String url = Global.RootIP + "miquits/mobile/user_dashboard.php";
 
@@ -67,21 +75,27 @@ public class MainActivity extends AppCompatActivity {
                             String status = jsonObject.getString("status");
 
                             if (status.equals("success")) {
-                                String booking = jsonObject.getString("booking");
-                                JSONObject jsonObject1 = new JSONObject(booking);
-                                massageName.setVisibility(View.VISIBLE);
-                                massageDate.setVisibility(View.VISIBLE);
-                                massageTime.setVisibility(View.VISIBLE);
-                                massageStatus.setVisibility(View.VISIBLE);
-                                massageName.setText(jsonObject1.getString("massageTitle"));
-                                massageDate.setText(jsonObject1.getString("date"));
-                                massageTime.setText(jsonObject1.getString("time"));
-                                String massage_status = jsonObject1.getString("status").equals("pending") ? "Pending" : "Accepted";
-                                massageStatus.setText(massage_status);
+                                JSONArray jsonArray = jsonObject.getJSONArray("massages");
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+
+                                    MassageModelClass massageModel = new MassageModelClass();
+                                    massageModel.setId(jsonObject1.getString("id"));
+                                    massageModel.setTitle(jsonObject1.getString("massageTitle"));
+                                    massageModel.setDate(jsonObject1.getString("date"));
+                                    massageModel.setTime(jsonObject1.getString("time"));
+                                    massageModel.setStatus(jsonObject1.getString("status"));
+                                    massageModel.setTherapistName(jsonObject1.getString("therapistName"));
+
+                                    massageList.add(massageModel);
+                                }
+
+                                recyclerView.invalidate();
+                                recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                                recyclerView.setAdapter(massageAdapter);
+                                massageAdapter.notifyDataSetChanged();
                             } else {
-                                String message = jsonObject.getString("message");
-                                massageName.setVisibility(View.VISIBLE);
-                                massageName.setText(message);
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -155,5 +169,18 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onItemClick(int position) throws ParseException {
+        Intent intent = new Intent(getApplicationContext(), MassageDetails.class);
+        intent.putExtra("id", massageList.get(position).getId());
+        intent.putExtra("status", massageList.get(position).getStatus());
+        intent.putExtra("date", massageList.get(position).getDate());
+        intent.putExtra("time", massageList.get(position).getTime());
+        intent.putExtra("massage", massageList.get(position).getTitle());
+        intent.putExtra("therapist", massageList.get(position).getTherapistName());
+        startActivity(intent);
+        overridePendingTransition(R.anim.enter, R.anim.exit);
     }
 }
