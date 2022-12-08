@@ -6,11 +6,16 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <TextView
         android:id="@+id/booking_name"
-        android:textSize="24dp"
+        android:textSize="18dp"
+        android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/booking_customer_name"
+        android:textSize="18dp"
+        android:gravity="center"
         android:textStyle="bold"/>
     <TextView
         android:id="@+id/booking_time"
         android:gravity="right"
-        android:textSize="24dp"
+        android:textSize="18dp"
         android:textStyle="normal"/>
 </TableRow>

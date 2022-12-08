@@ -68,6 +68,7 @@ public class TherapistMainActivity extends AppCompatActivity {
                                     TableRow row = (TableRow) getLayoutInflater().inflate(R.layout.booking_row, null);
                                     ((TextView)row.findViewById(R.id.booking_name)).setText(jsonObject1.getString("massageTitle"));
                                     ((TextView)row.findViewById(R.id.booking_time)).setText(jsonObject1.getString("time"));
+                                    ((TextView)row.findViewById(R.id.booking_customer_name)).setText(jsonObject1.getString("customerName"));
                                     tableLayout.addView(row);
                                 }
                             } else {
