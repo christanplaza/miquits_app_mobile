@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
     SharedPreferences sharedPreferences;
     RecyclerView recyclerView;
     List<MassageModelClass> massageList;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,13 +51,11 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         floatingActionButton = findViewById(R.id.fab);
         logout = findViewById(R.id.logout);
         recyclerView = findViewById(R.id.recycler_view);
+        progressBar = findViewById(R.id.loading);
 
         sharedPreferences = getSharedPreferences("miquits_app", Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "true");
         userKey = sharedPreferences.getString("userKey", "true");
-
-
-
         massageList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recycler_view);
@@ -63,13 +63,15 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(massageAdapter);
 
-        String url = Global.RootIP + "miquits/mobile/user_dashboard.php";
+        String url = Global.RootIP + "mobile/user_dashboard.php";
+        progressBar.setVisibility(View.VISIBLE);
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        progressBar.setVisibility(View.GONE);
                         try {
                             JSONObject jsonObject = new JSONObject(response);
                             String status = jsonObject.getString("status");
@@ -120,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
             @Override
             public void onClick(View view) {
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url = Global.RootIP + "miquits/mobile/logout.php";
+                String url = Global.RootIP + "mobile/logout.php";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {

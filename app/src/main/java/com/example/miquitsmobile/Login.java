@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,7 @@ import java.util.Map;
 public class Login extends AppCompatActivity {
     TextInputEditText textInputEditTextUsername, textInputEditTextPassword;
     String username, password, name, role, userKey, userId;
+    ProgressBar progressBar;
     Button login;
     TextView register, error;
     SharedPreferences sharedPreferences;
@@ -39,6 +41,7 @@ public class Login extends AppCompatActivity {
 
         textInputEditTextUsername = findViewById(R.id.username);
         textInputEditTextPassword = findViewById(R.id.password);
+        progressBar = findViewById(R.id.loading);
         login = findViewById(R.id.submit);
         register = findViewById(R.id.register_now);
         error = findViewById(R.id.error);
@@ -71,7 +74,9 @@ public class Login extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                error.setVisibility(View.INVISIBLE);
+                error.setVisibility(View.GONE);
+                progressBar.setVisibility(View.VISIBLE);
+                login.setActivated(false);
                 // Kwaon ang info nga gin type ka user
                 username = textInputEditTextUsername.getText().toString();
                 password = textInputEditTextPassword.getText().toString();
@@ -79,13 +84,14 @@ public class Login extends AppCompatActivity {
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
                 // sa diin ka ga request
-                String url = Global.RootIP + "miquits/mobile/login.php";
+                String url = Global.RootIP + "mobile/login.php";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             @Override
                             // ano himuon mo after sa request
                             public void onResponse(String response) {
+                                progressBar.setVisibility(View.GONE);
                                 try {
                                     JSONObject jsonObject = new JSONObject(response);
 
@@ -119,6 +125,7 @@ public class Login extends AppCompatActivity {
                                     } else {
                                         error.setVisibility(View.VISIBLE);
                                         error.setText(message);
+                                        login.setActivated(true);
                                     }
                                 } catch (JSONException e) {
                                     e.printStackTrace();

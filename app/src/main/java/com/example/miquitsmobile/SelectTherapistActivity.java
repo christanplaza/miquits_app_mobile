@@ -65,7 +65,7 @@ public class SelectTherapistActivity extends AppCompatActivity implements Recycl
         recyclerView.setAdapter(therapistAdapter);
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        String url = Global.RootIP + "miquits/mobile/get_therapists.php";
+        String url = Global.RootIP + "mobile/get_therapists.php";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {
@@ -124,7 +124,7 @@ public class SelectTherapistActivity extends AppCompatActivity implements Recycl
     public void onItemClick(int position) {
         String therapistId = therapistList.get(position).getId();
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        String url = Global.RootIP + "miquits/mobile/add_bookings.php";
+        String url = Global.RootIP + "mobile/add_bookings.php";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {

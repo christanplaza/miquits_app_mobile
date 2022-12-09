@@ -59,7 +59,7 @@ public class MassageDetails extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-                String url = Global.RootIP + "miquits/mobile/cancel_booking.php";
+                String url = Global.RootIP + "mobile/cancel_booking.php";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {

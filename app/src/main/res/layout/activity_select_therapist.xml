@@ -9,13 +9,11 @@
     tools:context=".SelectTherapistActivity">
 
     <TextView
-        android:text="Select a Therapist"
-        android:textSize="36dp"
-        android:textAlignment="center"
+        android:text="Available Therapists"
+        android:textSize="32sp"
+        android:padding="16dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
-        android:visibility="gone"
         android:contentDescription="@null"/>
 
     <ProgressBar

@@ -64,7 +64,7 @@ public class SelectMassageActivity extends AppCompatActivity implements Recycler
         SimpleDateFormat df = new SimpleDateFormat("HH:mm");
 
         RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
-        String url = Global.RootIP + "miquits/mobile/get_massages.php";
+        String url = Global.RootIP + "mobile/get_massages.php";
 
         StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                 new Response.Listener<String>() {

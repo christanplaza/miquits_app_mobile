@@ -28,6 +28,7 @@
             android:id="@+id/register_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             android:contentDescription="Full Name"
             android:hint="Full Name"/>
     </com.google.android.material.textfield.TextInputLayout>
@@ -44,6 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:contentDescription="Username"
+            android:maxLines="1"
             android:hint="Username"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -60,6 +62,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:contentDescription="Password"
+            android:maxLines="1"
             android:hint="Enter Password"/>
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -76,6 +79,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:contentDescription="Confirm Password"
+            android:maxLines="1"
             android:hint="Confirm Password"/>
     </com.google.android.material.textfield.TextInputLayout>
 
