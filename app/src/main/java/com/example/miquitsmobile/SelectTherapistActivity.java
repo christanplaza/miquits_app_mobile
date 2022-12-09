@@ -35,7 +35,7 @@ import java.util.Map;
 public class SelectTherapistActivity extends AppCompatActivity implements RecyclerViewInterface {
     ProgressBar progressBar;
     SharedPreferences sharedPreferences;
-    String username, userKey, massageId, massageName, massagePrice, time, date, massageDuration, massageEndTime, contactNumber;
+    String username, userKey, massageId, massageName, massagePrice, time, date, massageDuration, massageEndTime, contactNumber, name;
     List<TherapistModelClass> therapistList;
     RecyclerView recyclerView;
 
@@ -47,6 +47,7 @@ public class SelectTherapistActivity extends AppCompatActivity implements Recycl
         progressBar = findViewById(R.id.loading);
         sharedPreferences = getSharedPreferences("miquits_app", Context.MODE_PRIVATE);
         username = sharedPreferences.getString("username", "true");
+        name = sharedPreferences.getString("name", "true");
         userKey = sharedPreferences.getString("userKey", "true");
         massageId = getIntent().getStringExtra("massage_id");
         massageName = getIntent().getStringExtra("massage_name");
@@ -122,57 +123,49 @@ public class SelectTherapistActivity extends AppCompatActivity implements Recycl
     @Override
     public void onItemClick(int position) {
         String therapistId = therapistList.get(position).getId();
-                RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
         String url = Global.RootIP + "miquits/mobile/add_bookings.php";
 
-                StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(response);
-                                    String status = jsonObject.getString("status");
-                                    if (status.equals("success")) {
-                                        Toast.makeText(getApplicationContext(), "Booking Successful", Toast.LENGTH_SHORT).show();
-                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                        startActivity(intent);
-                                        overridePendingTransition(R.anim.enter, R.anim.exit);
-                                        finish();
-                                    } else {
-                                        Log.e("error", response);
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }, new Response.ErrorListener() {
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
+                new Response.Listener<String>() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        error.printStackTrace();
+                    public void onResponse(String response) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(response);
+                            String status = jsonObject.getString("status");
+                            if (status.equals("success")) {
+                                Toast.makeText(getApplicationContext(), "Booking Successful", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                                overridePendingTransition(R.anim.enter, R.anim.exit);
+                                finish();
+                            } else {
+                                Log.e("error", response);
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
-                }){
-                    protected Map<String, String> getParams() {
-                        Map<String, String> paramV = new HashMap<>();
-                        paramV.put("username", username);
-                        paramV.put("userKey", userKey);
-                        paramV.put("name", username);
-                        paramV.put("contact_number", contactNumber);
-                        paramV.put("date", date);
-                        paramV.put("time", time);
-                        paramV.put("therapist", therapistId);
-                        paramV.put("massage", massageId);
-                        return paramV;
-                    }
-                };
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        }){
+            protected Map<String, String> getParams() {
+                Map<String, String> paramV = new HashMap<>();
+                paramV.put("username", username);
+                paramV.put("userKey", userKey);
+                paramV.put("name", name);
+                paramV.put("contact_number", contactNumber);
+                paramV.put("date", date);
+                paramV.put("time", time);
+                paramV.put("therapist", therapistId);
+                paramV.put("massage", massageId);
+                return paramV;
+            }
+        };
 
-                queue.add(stringRequest);
-//        Intent intent = new Intent(getApplicationContext(), ScheduleSelectionActivity.class);
-//        intent.putExtra("massage_end_time", massageEndTime);
-//        intent.putExtra("massage_id", massageId);
-//        intent.putExtra("massage_name", massageName);
-//        intent.putExtra("massage_price", massagePrice);
-//        intent.putExtra("therapist_id", therapistList.get(position).getId());
-//        intent.putExtra("therapist_name", therapistList.get(position).getName());
-//        startActivity(intent);
+        queue.add(stringRequest);
     }
 }

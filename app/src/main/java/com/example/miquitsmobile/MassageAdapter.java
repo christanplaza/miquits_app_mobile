@@ -36,8 +36,8 @@ public class MassageAdapter extends RecyclerView.Adapter<MassageAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         String seatType = "Seated";
-        if (massageData.get(position).getSeatType() == "laying") {
-            seatType = "Laying";
+        if (massageData.get(position).getSeatType().equals("lying")) {
+            seatType = "Lying";
         }
         holder.massageName.setText(massageData.get(position).getTitle());
         holder.massageDescription.setText(massageData.get(position).getDescription());

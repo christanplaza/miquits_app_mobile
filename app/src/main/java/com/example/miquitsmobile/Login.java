@@ -44,6 +44,21 @@ public class Login extends AppCompatActivity {
         error = findViewById(R.id.error);
         sharedPreferences = getSharedPreferences("miquits_app", MODE_PRIVATE);
 
+        userKey = sharedPreferences.getString("userKey", "");
+        username = sharedPreferences.getString("username", "");
+        role = sharedPreferences.getString("role", "");
+        if (userKey != "" && username != "" && role != "") {
+            Intent intent;
+            if (role.equals("massage_therapist")) {
+                intent = new Intent(getApplicationContext(), TherapistMainActivity.class);
+            } else {
+                intent = new Intent(getApplicationContext(), MainActivity.class);
+            }
+
+            startActivity(intent);
+            finish();
+        }
+
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -57,19 +72,23 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 error.setVisibility(View.INVISIBLE);
+                // Kwaon ang info nga gin type ka user
                 username = textInputEditTextUsername.getText().toString();
                 password = textInputEditTextPassword.getText().toString();
 
                 RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
 
+                // sa diin ka ga request
                 String url = Global.RootIP + "miquits/mobile/login.php";
 
                 StringRequest stringRequest = new StringRequest(Request.Method.POST, url,
                         new Response.Listener<String>() {
                             @Override
+                            // ano himuon mo after sa request
                             public void onResponse(String response) {
                                 try {
                                     JSONObject jsonObject = new JSONObject(response);
+
                                     String status = jsonObject.getString("status");
                                     String message = jsonObject.getString("message");
                                     if (status.equals("success")) {
@@ -111,6 +130,7 @@ public class Login extends AppCompatActivity {
                         error.printStackTrace();
                     }
                 }){
+                    // ano ang need para sa request
                     protected Map<String, String> getParams() {
                         Map<String, String> paramV = new HashMap<>();
                         paramV.put("username", username);

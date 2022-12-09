@@ -88,6 +88,7 @@ public class SelectMassageActivity extends AppCompatActivity implements Recycler
                                     massageModel.setDescription(jsonObject1.getString("description"));
                                     massageModel.setDuration(jsonObject1.getString("duration"));
                                     massageModel.setPrice(jsonObject1.getString("price"));
+                                    massageModel.setSeatType(jsonObject1.getString("seat_type"));
 
                                     massageList.add(massageModel);
                                 }

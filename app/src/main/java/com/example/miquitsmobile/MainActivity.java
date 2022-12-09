@@ -140,6 +140,7 @@ public class MainActivity extends AppCompatActivity implements RecyclerViewInter
                                     startActivity(intent);
 
                                     Toast.makeText(getApplicationContext(), "Logged out", Toast.LENGTH_SHORT).show();
+                                    finish();
                                 } else {
                                     Toast.makeText(getApplicationContext(), response, Toast.LENGTH_SHORT).show();
                                 }
