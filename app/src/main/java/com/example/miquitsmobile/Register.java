@@ -28,7 +28,7 @@ public class Register extends AppCompatActivity {
     TextInputEditText textInputEditTextName, textInputEditTextUsername, textInputEditTextPassword, textInputEditTextConfirmPassword;
     Button buttonSubmit;
     String name, username, password, password_confirm;
-    TextView textViewError;
+    TextView textViewError, loginNow;
     ProgressBar progressBar;
 
     @Override
@@ -49,9 +49,19 @@ public class Register extends AppCompatActivity {
         textInputEditTextUsername = findViewById(R.id.register_username);
         textInputEditTextPassword = findViewById(R.id.register_password);
         textInputEditTextConfirmPassword = findViewById(R.id.register_password_confirm);
+        loginNow = findViewById(R.id.login_now);
         buttonSubmit = findViewById(R.id.submit);
         textViewError = findViewById(R.id.error);
         progressBar = findViewById(R.id.loading);
+
+        loginNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override

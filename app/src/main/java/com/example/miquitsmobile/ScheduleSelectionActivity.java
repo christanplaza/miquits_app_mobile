@@ -72,13 +72,18 @@ public class ScheduleSelectionActivity extends AppCompatActivity implements View
             public void onClick(View view) {
                 contactNumber = textInputEditTextContactNumber.getText().toString();
 
-                Intent intent = new Intent(getApplicationContext(), SelectMassageActivity.class);
+                if (!contactNumber.equals("")) {
+                    Intent intent = new Intent(getApplicationContext(), SelectMassageActivity.class);
 
-                intent.putExtra("contact_number", contactNumber);
-                intent.putExtra("date", txtDate.getText().toString());
-                intent.putExtra("time", txtTime.getText().toString());
+                    intent.putExtra("contact_number", contactNumber);
+                    intent.putExtra("date", txtDate.getText().toString());
+                    intent.putExtra("time", txtTime.getText().toString());
 
-                startActivity(intent);
+                    startActivity(intent);
+                } else {
+                    textViewErrorMessage.setText("Contact Number is required");
+                    textViewErrorMessage.setVisibility(View.VISIBLE);
+                }
             }
         });
     }

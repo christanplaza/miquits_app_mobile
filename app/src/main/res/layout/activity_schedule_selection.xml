@@ -29,6 +29,8 @@
             <EditText
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
+                android:inputType="none"
+                android:enabled="false"
                 android:id="@+id/massage_date" />
 
             <Button
@@ -41,6 +43,8 @@
             <EditText
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
+                android:inputType="none"
+                android:enabled="false"
                 android:id="@+id/massage_time"/>
 
             <Button
@@ -63,6 +67,9 @@
                 android:id="@+id/contact_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="text"
+                android:imeOptions="actionDone"
+                android:nextFocusDown="@id/submit"
                 android:contentDescription="Contact Number"
                 android:hint="Enter Contact Number"/>
         </com.google.android.material.textfield.TextInputLayout>
