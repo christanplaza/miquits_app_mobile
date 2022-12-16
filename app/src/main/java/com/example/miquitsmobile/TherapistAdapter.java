@@ -1,9 +1,11 @@
 package com.example.miquitsmobile;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -36,6 +38,12 @@ public class TherapistAdapter extends RecyclerView.Adapter<TherapistAdapter.MyVi
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.therapistName.setText(therapistData.get(position).getName());
+        String rating = therapistData.get(position).getRating();
+        if (rating == "null") {
+            holder.ratingBar.setRating(0);
+        } else {
+            holder.ratingBar.setRating(Float.parseFloat(rating));
+        }
     }
 
     @Override
@@ -46,11 +54,13 @@ public class TherapistAdapter extends RecyclerView.Adapter<TherapistAdapter.MyVi
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
         TextView therapistName;
+        RatingBar ratingBar;
 
         public MyViewHolder(@NonNull View itemView, RecyclerViewInterface recyclerViewInterface) {
             super(itemView);
 
             therapistName = itemView.findViewById(R.id.therapist_name);
+            ratingBar = itemView.findViewById(R.id.therapist_rating);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

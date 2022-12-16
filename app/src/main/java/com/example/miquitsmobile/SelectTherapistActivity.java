@@ -86,6 +86,7 @@ public class SelectTherapistActivity extends AppCompatActivity implements Recycl
                                     TherapistModelClass therapistModel = new TherapistModelClass();
                                     therapistModel.setId(jsonObject1.getString("id"));
                                     therapistModel.setName(jsonObject1.getString("name"));
+                                    therapistModel.setRating(jsonObject1.getString("review"));
 
                                     therapistList.add(therapistModel);
                                 }
@@ -135,7 +136,7 @@ public class SelectTherapistActivity extends AppCompatActivity implements Recycl
                             String status = jsonObject.getString("status");
                             if (status.equals("success")) {
                                 Toast.makeText(getApplicationContext(), "Booking Successful", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), PaymentNote.class);
                                 startActivity(intent);
                                 overridePendingTransition(R.anim.enter, R.anim.exit);
                                 finish();

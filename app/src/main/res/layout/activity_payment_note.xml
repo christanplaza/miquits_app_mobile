@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_vertical"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".PaymentNote">
+    <TextView
+        android:textAlignment="center"
+        android:text="Booking Details"
+        android:textSize="48dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_marginTop="16dp"
+        android:textAlignment="center"
+        android:text="Your booking is still pending, to confirm your booking, pay at least 50% of your massage fee via GCASH and contact the Front Desk regarding your payment for confirmation."
+        android:textSize="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TableLayout
+        android:padding="16dp"
+        android:layout_width="match_parent"
+        android:stretchColumns="1"
+        android:layout_height="wrap_content">
+        <TableRow
+            android:layout_marginBottom="16dp">
+            <TextView
+                android:textSize="18dp"
+                android:text="Choy's Massage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+            <TextView
+                android:textAlignment="textEnd"
+                android:textSize="18dp"
+                android:text="09500457300"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+        </TableRow>
+        <TableRow>
+            <Button
+                android:id="@+id/understood_btn"
+                android:text="Understood"
+                android:layout_span="2"
+                />
+        </TableRow>
+    </TableLayout>
+</LinearLayout>

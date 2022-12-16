@@ -13,14 +13,24 @@
         android:gravity="center_horizontal"
         android:padding="16dp"
         android:orientation="vertical">
+        <TextView
+            android:id="@+id/recent_massage_title"
+            android:text="Recent Massage"
+            android:visibility="gone"
+            android:textSize="36dp"
+            android:paddingHorizontal="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
         <Button
-            android:id="@+id/logout"
-            android:text="Logout"
+            android:id="@+id/rate_now"
+            android:text="Rate your most recent massage"
+            android:visibility="gone"
             android:layout_width="wrap_content"
+            android:layout_marginVertical="16dp"
             android:layout_height="wrap_content"/>
         <TextView
             android:id="@+id/upcoming_massage_title"
-            android:text="Upcoming Massage"
+            android:text="Upcoming Massages"
             android:textSize="36dp"
             android:paddingHorizontal="16dp"
             android:layout_marginBottom="16dp"
@@ -36,8 +46,15 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/recycler_view"/>
+
+        <Button
+            android:id="@+id/logout"
+            android:layout_marginTop="32dp"
+            android:text="Logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
 
     </LinearLayout>

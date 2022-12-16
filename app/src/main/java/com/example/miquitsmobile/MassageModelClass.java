@@ -11,8 +11,9 @@ public class MassageModelClass {
     String date;
     String time;
     String therapistName;
+    String massageName;
 
-    public MassageModelClass(String id, String title, String description, String duration, String price, String status, String seatType, String date, String time, String therapistName) {
+    public MassageModelClass(String id, String title, String description, String duration, String price, String status, String seatType, String date, String time, String therapistName, String massageName) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -23,6 +24,7 @@ public class MassageModelClass {
         this.date = date;
         this.time = time;
         this.therapistName = therapistName;
+        this.massageName = massageName;
     }
 
     public MassageModelClass() {
@@ -106,5 +108,13 @@ public class MassageModelClass {
 
     public void setTherapistName(String therapistName) {
         this.therapistName = therapistName;
+    }
+
+    public String getMassageName() {
+        return massageName;
+    }
+
+    public void setMassageName(String massageName) {
+        this.massageName = massageName;
     }
 }
